@@ -1,0 +1,46 @@
+spinnaker-helm
+Spinnaker Chart
+Spinnaker is an open source, multi-cloud continuous delivery platform.
+
+Chart Details
+This chart will provision a fully functional and fully featured Spinnaker installation that can deploy and manage applications in the cluster that it is deployed to.
+
+Redis and Minio are used as the stores for Spinnaker state.
+
+For more information on Spinnaker and its capabilities, see it’s documentation.
+
+Setup Instructions
+Prerequisites
+Kubernetes cluster 1.20 or later with at least 4 cores and 16 GB memory.
+Helm 3 is setup on the client system with 3.10.3 or later.
+Helm Chart supports two modes of Installations
+Non-Gitops Method
+Gitops Method
+Use below command to check if helm is installed or not
+
+ helm version
+If helm is not setup, follow https://helm.sh/docs/intro/install/ to install helm.
+
+1. Installing with Non-Gitops Method
+Add spinnaker helm repo to your local machine
+
+ helm repo add spinnaker https://opsmx.github.io/spinnaker-helm/
+Note: If spinnaker helm repo is already added, do a repo update before installing the chart
+
+ helm repo update
+Use below command to create the namespace
+
+ kubectl create namespace opsmx-oss
+Use below command to install the helm chart using Non-Gitops Method:
+
+helm install oss-spin spinnaker/spinnaker -n opsmx-oss --timeout 600s
+Tip: For more information of changing the default values file please check
+
+
+Accessing the Spinnaker
+Check the status of the pods by executing this command:
+
+kubectl -n opsmx-oss get po
+Once all pods show “Running” or “Completed” status and Use port-forward command to access the Spinnaker:
+
+kubectl -n opsmx-oss port-forward svc/spin-deck 9000  ## Keep running, it shows messages such as "Forwarding from 127.0.0.1:9000
